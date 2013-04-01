@@ -1,0 +1,46 @@
+{
+	"name": "async-cancelable-events",
+	"description": "Asynchronous cancelable (or not) EventEmitter-like object",
+	"keywords": ["async", "cancelable", "events"],
+	"homepage": "https://github.com/dfellis/async-cancelable-events",
+	"author": "David Ellis",
+	"version": "0.0.1",
+	"bugs": "https://github.com/dfellis/async-cancelable-events/issues",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com:dfellis/async-cancelable-events.git"
+	},
+	"main": "./lib/async-cancelable-events",
+	"dependencies": {
+        "is-async": "0.0.2"
+    },
+	"devDependencies": {
+		"nodeunit": "*",
+		"docco": "*",
+        "browserify": "*",
+		"uglify-js": "*",
+		"jscoverage": "*",
+        "complexity-report": "*",
+        "jshint": "*",
+        "tape": "*"
+	},
+	"engines": {
+		"node": ">=0.6"
+	},
+	"scripts": {
+		"realpublish": "./prepublish.sh && npm publish",
+		"test": "jshint ./lib/async-cancelable-events.js && nodeunit ./test/test-node.js",
+        "testbrowser": "tape ./test/test-browser.js"
+	},
+    "testling": {
+        "files": "test/test-browser.js",
+        "browsers": {
+            "ie": [ 9, 10 ],
+            "firefox": [ 14, 15, 16, 17, "nightly" ],
+            "chrome": [ 20, 21, 22, 23, "canary" ],
+            "safari": [ 6.0 ],
+            "opera": [ 11.0, 11.6, 12.0, "next" ],
+            "iphone": [ 6 ]
+        }
+    }
+}
