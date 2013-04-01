@@ -16,11 +16,12 @@ var EventEmitter = require('async-cancelable-events');
 
 The API is intented to be a mostly-drop-in replacement for Node.js' EventEmitter object, with a little bit of DOM Events and more asynchronicity sprinkled in.
 
-The primary differences between the EventEmitter and this are:
+The primary differences between the EventEmitter and async-cancelable-events are:
 
 1. If the last argument passed into ``this.emit`` is a function, it is assumed to be a callback that accepts a boolean indicating whether to continue the event (``true``) or cancel it (``false``).
 2. The ``.on`` and ``.once`` methods try to "guess" if the provided handler is synchronous or asynchronous (based on its argument length), or can be explicitly registered as synchronous or asynchronous with ``.onSync``, ``.onAsync``, ``.onceSync``, ``.onceAsync``.
 3. Did you know ``.addListener`` was a thing? I didn't. It's just a synonmym for ``.on``, by the way.
+4. The various method calls are chainable, so ``foo.on('bar', func1).on('baz', func2)`` is valid.
 
 ## License (MIT)
 
