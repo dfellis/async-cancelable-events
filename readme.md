@@ -16,6 +16,14 @@ npm install async-cancelable-events
 
 ```js
 var EventEmitter = require('async-cancelable-events');
+var util = require('util');
+
+function MyEmittingObject() {
+    EventEmitter.call(this);
+    ...
+}
+
+util.inherits(MyEmittingObject, EventEmitter);
 ```
 
 The API is intented to be a mostly-drop-in replacement for Node.js' EventEmitter object, with a little bit of DOM Events and more asynchronicity sprinkled in.
@@ -24,7 +32,7 @@ The primary differences between the EventEmitter and async-cancelable-events are
 
 1. If the last argument passed into ``this.emit`` is a function, it is assumed to be a callback that accepts a boolean indicating whether to continue the event (``true``) or cancel it (``false``).
 2. The ``.on`` and ``.once`` methods try to "guess" if the provided handler is synchronous or asynchronous (based on its argument length), or can be explicitly registered as synchronous or asynchronous with ``.onSync``, ``.onAsync``, ``.onceSync``, ``.onceAsync``.
-3. Did you know ``.addListener`` was a thing? I didn't. It's just a synonmym for ``.on``, by the way.
+3. Passing the maximum number of listeners allowed will fire off a ``maxListenersPassed`` event with the event name and listener count as arguments. The warning the official ``EventEmitter`` prints is simply a listener for ``async-cancelable-events``, and can be disabled by running ``this.removeAllListeners('maxListenersPassed')`` just after the ``EventEmitter.call(this)`` listed above.
 4. The various method calls are chainable, so ``foo.on('bar', func1).on('baz', func2)`` is valid.
 
 ## License (MIT)
