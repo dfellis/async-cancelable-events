@@ -134,15 +134,15 @@ exports.emitSyncEventCancelationStopsEventEval = function(test) {
 
 exports.eventEmitterEvents = function(test) {
     bootstrap(test);
-    test.expect(12);
+    test.expect(15);
     var emitter = new EventEmitter();
-    emitter.setMaxListeners(1);
+    emitter.setMaxListeners(2);
     emitter.on('newListener', function(listener) {
         test.ok(listener instanceof Function, 'got a new listener');
     });
     emitter.on('maxListenersPassed', function(eventName, count) {
         test.equal(eventName, 'someEvent', 'added too many listeners to someEvent');
-        test.equal(count, 2, "this town ain't big enough for the two of us!");
+        test.equal(count, 3, "this town ain't big enough for the two of us!");
     });
     emitter.on('removeListener', function(listener) {
         test.ok(listener instanceof Function, 'got the removed listener');
@@ -152,6 +152,9 @@ exports.eventEmitterEvents = function(test) {
     });
     emitter.once('someEvent', function() {
         test.ok(true, 'second listener fired');
+    });
+    emitter.once('someEvent', function() {
+        test.ok(true, 'third listener fired');
     });
     emitter.emit('someEvent', function() {
         test.ok(true, 'event finished');
