@@ -71,3 +71,48 @@ exports.forceListenerType = function(test) {
         test.done();
     });
 };
+
+exports.oneTimeListener = function(test) {
+    bootstrap(test);
+    test.expect(4);
+    var emitter = new EventEmitter();
+    emitter.once('toAccept', function() {
+        test.ok(true, 'received the event');
+    });
+    test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 1, 'one listener registered for the event');
+    emitter.emit('toAccept', function(result) {
+        test.ok(result, 'informed to continue the event');
+        test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 0, 'the one-time listener removed');
+        test.done();
+    });
+};
+
+exports.oneTimeListenerSyncEmit = function(test) {
+    bootstrap(test);
+    test.expect(2);
+    var emitter = new EventEmitter();
+    emitter.once('toAccept', function() {
+        test.ok(true, 'received the event');
+        test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 0, 'the one-time-listener removed');
+        test.done();
+    });
+    emitter.emitSync('toAccept');
+};
+
+exports.forceOneTimeType = function(test) {
+    bootstrap(test);
+    test.expect(5);
+    var emitter = new EventEmitter();
+    emitter.onceSync('toAccept', function(optionalValue) {
+        test.ok(!optionalValue, 'no value passed in');
+        test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 0, 'the one-time-listener removed');
+    });
+    emitter.onceAsync('toAccept', function(optionalValue, callback) {
+        if(!callback) callback = optionalValue;
+        test.ok(optionalValue instanceof Function, 'no value passed in');
+        test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 0, 'the one-time-listener removed');
+        test.done();
+    })
+    test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 2, 'the one-time-listeners added');
+    emitter.emit('toAccept');
+};
