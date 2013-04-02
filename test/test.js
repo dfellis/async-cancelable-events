@@ -54,7 +54,7 @@ exports.asyncEventListener = function(test) {
 
 exports.forceListenerType = function(test) {
     bootstrap(test);
-    test.expect(3);
+    test.expect(4);
     var emitter = new EventEmitter();
     emitter.onSync('toAccept', function(optionalValue) {
         test.ok(true, 'received the event');
@@ -115,4 +115,19 @@ exports.forceOneTimeType = function(test) {
     })
     test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 2, 'the one-time-listeners added');
     emitter.emit('toAccept');
+};
+
+exports.emitSyncEventCancelationStopsEventEval = function(test) {
+    bootstrap(test);
+    test.expect(1);
+    var emitter = new EventEmitter();
+    emitter.on('testEvent', function(callback) {
+        test.ok(true, 'received the event');
+        test.done();
+        callback(false);
+    });
+    emitter.on('testEvent', function() {
+        test.ok(false, 'this should never run');
+    });
+    emitter.emitSync('testEvent');
 };
