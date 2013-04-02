@@ -131,3 +131,78 @@ exports.emitSyncEventCancelationStopsEventEval = function(test) {
     });
     emitter.emitSync('testEvent');
 };
+
+exports.eventEmitterEvents = function(test) {
+    bootstrap(test);
+    test.expect(12);
+    var emitter = new EventEmitter();
+    emitter.setMaxListeners(1);
+    emitter.on('newListener', function(listener) {
+        test.ok(listener instanceof Function, 'got a new listener');
+    });
+    emitter.on('maxListenersPassed', function(eventName, count) {
+        test.equal(eventName, 'someEvent', 'added too many listeners to someEvent');
+        test.equal(count, 2, "this town ain't big enough for the two of us!");
+    });
+    emitter.on('removeListener', function(listener) {
+        test.ok(listener instanceof Function, 'got the removed listener');
+    });
+    emitter.once('someEvent', function() {
+        test.ok(true, 'first listener fired');
+    });
+    emitter.once('someEvent', function() {
+        test.ok(true, 'second listener fired');
+    });
+    emitter.emit('someEvent', function() {
+        test.ok(true, 'event finished');
+        test.done();
+    });
+};
+
+exports.listenerList = function(test) {
+    bootstrap(test);
+    test.expect(1);
+    var emitter = new EventEmitter();
+    var fooFunc = function() {};
+    emitter.on('foo', fooFunc);
+    test.equal(fooFunc, emitter.listeners('foo')[0], 'got the expected function');
+    test.done();
+};
+
+exports.removeListener = function(test) {
+    bootstrap(test);
+    test.expect(1);
+    var emitter = new EventEmitter();
+    var fooFunc = function() {};
+    var barFunc = function() {};
+    emitter.on('foo', fooFunc);
+    emitter.on('foo', barFunc);
+    var bazFunc = function() {};
+    var bayFunc = function() {};
+    emitter.once('foo', bazFunc);
+    emitter.once('foo', bayFunc);
+    emitter.removeListener('foo', barFunc);
+    emitter.removeListener('foo', bayFunc);
+    test.equal(emitter.listeners('foo').length, 2, 'the emitters were removed');
+    test.done();
+};
+
+exports.removeAllListeners = function(test) {
+    bootstrap(test);
+    test.expect(3);
+    var emitter = new EventEmitter();
+    var fooFunc = function() {};
+    var barFunc = function() {};
+    var bazFunc = function() {};
+    var bayFunc = function() {};
+    emitter.on('foo', fooFunc);
+    emitter.once('foo', barFunc);
+    emitter.on('baz', bazFunc);
+    emitter.once('bay', bayFunc);
+    emitter.removeAllListeners('foo');
+    test.equal(emitter.listeners('foo').length, 0, 'the emitters were removed');
+    test.equal(emitter.listeners('baz').length + emitter.listeners('bay').length, 2, 'the emitters were not removed');
+    emitter.removeAllListeners();
+    test.equal(emitter.listeners('baz').length + emitter.listeners('bay').length, 0, 'the emitters were removed');
+    test.done();
+};
