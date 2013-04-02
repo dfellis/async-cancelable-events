@@ -2,7 +2,7 @@
 	"name": "async-cancelable-events",
 	"description": "Asynchronous cancelable (or not) EventEmitter-like object",
 	"keywords": ["async", "cancelable", "events"],
-	"homepage": "https://github.com/dfellis/async-cancelable-events",
+	"homepage": "http://dfellis.github.com/async-cancelable-events",
 	"author": "David Ellis",
 	"version": "0.0.2",
 	"bugs": "https://github.com/dfellis/async-cancelable-events/issues",
