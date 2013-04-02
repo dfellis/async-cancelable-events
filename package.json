@@ -4,7 +4,7 @@
 	"keywords": ["async", "cancelable", "events"],
 	"homepage": "http://dfellis.github.com/async-cancelable-events",
 	"author": "David Ellis",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"bugs": "https://github.com/dfellis/async-cancelable-events/issues",
 	"repository": {
 		"type": "git",
