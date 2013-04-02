@@ -1,5 +1,9 @@
 # async-cancelable-events
 
+[![Build Status](https://travis-ci.org/dfellis/async-cancelable-events.png?branch=master)](https://travis-ci.org/dfellis/async-cancelable-events)
+
+[![browser support](https://ci.testling.com/dfellis/async-cancelable-events.png)](https://ci.testling.com/dfellis/async-cancelable-events)
+
 An EventEmitter replacement that allows the library to make events cancelable by the event handlers and allows event handlers to be synchronous or asynchronous.
 
 ## Install
