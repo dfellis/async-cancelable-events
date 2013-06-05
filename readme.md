@@ -1,6 +1,6 @@
 # async-cancelable-events
 
-[![Build Status](https://travis-ci.org/dfellis/async-cancelable-events.png?branch=master)](https://travis-ci.org/dfellis/async-cancelable-events)
+[![Build Status](https://travis-ci.org/dfellis/async-cancelable-events.png?branch=master)](https://travis-ci.org/dfellis/async-cancelable-events) [![Dependency Status](https://david-dm.org/dfellis/async-cancelable-events.png)](https://david-dm.org/dfellis/async-cancelable-events) [![Coverage Status](https://coveralls.io/repos/dfellis/async-cancelable-events/badge.png?branch=master)](https://coveralls.io/r/dfellis/async-cancelable-events?branch=master)
 
 [![browser support](https://ci.testling.com/dfellis/async-cancelable-events.png)](https://ci.testling.com/dfellis/async-cancelable-events)
 
