@@ -12,33 +12,10 @@ for(var key in tests) {
 exports.jscoverage = function(test) {
 	test.expect(1);
     jscoverage.coverageDetail();
-    // Copied directly from jscoverage and edited, since getting at these values directly isn't possible
-    var file;
-    var tmp;
-    var total;
-    var touched;
-    var n, len;
-    if (typeof _$jscoverage === 'undefined') {
-        return;
-    }
-    var lcov = "";
-    for (var i in _$jscoverage) {
-        file = i;
-        lcov += "SF:" + file + "\n";
-        tmp = _$jscoverage[i];
-        if (typeof tmp === 'function' || tmp.length === undefined) continue;
-        total = touched = 0;
-        for (n = 0, len = tmp.length; n < len; n++) {
-            if (tmp[n] !== undefined) {
-                lcov += "DA:" + n + "," + tmp[n] + "\n";
-                total ++;
-                if (tmp[n] > 0)
-                    touched ++;
-            }
-        }
-        test.equal(total, touched, 'All lines of code exercised by the tests');
-    }
-    lcov += "end_of_record\n";
-    if(process.env.TRAVIS) coveralls.handleInput(lcov);
+    var coverageStats = jscoverage.coverageStats();
+    Object.keys(coverageStats).forEach(function(file) {
+        test.equal(coverageStats[file].total, coverageStats[file].touched, 'All lines of code exercised by the tests');
+    });
+    if(process.env.TRAVIS) coveralls.handleInput(jscoverage.getLCOV());
     test.done();
 };

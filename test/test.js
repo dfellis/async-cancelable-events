@@ -1,6 +1,3 @@
-var fs = require('fs');
-var cr = require('complexity-report');
-var isAsync = require('is-async');
 var EventEmitter;
 
 function bootstrap(test) {
@@ -112,7 +109,7 @@ exports.forceOneTimeType = function(test) {
         test.ok(optionalValue instanceof Function, 'no value passed in');
         test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 0, 'the one-time-listener removed');
         test.done();
-    })
+    });
     test.equal(EventEmitter.listenerCount(emitter, 'toAccept'), 2, 'the one-time-listeners added');
     emitter.emit('toAccept');
 };
