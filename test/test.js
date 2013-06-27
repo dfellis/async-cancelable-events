@@ -206,3 +206,13 @@ exports.removeAllListeners = function(test) {
     test.equal(emitter.listeners('baz').length + emitter.listeners('bay').length, 0, 'the emitters were removed');
     test.done();
 };
+
+exports.ifYouEmitAndThereAreNoListenersDoYouEmitAnything = function(test) {
+    bootstrap(test);
+    test.expect(1);
+    var emitter = new EventEmitter();
+    emitter.emit('foo', 'bar', function(result) {
+        test.ok(result, 'the emitter got a good result');
+        test.done();
+    });
+};
